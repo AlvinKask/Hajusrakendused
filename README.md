@@ -1,3 +1,3 @@
 # Hajusrakendused
 
-no-framework js
+- no-framework js
