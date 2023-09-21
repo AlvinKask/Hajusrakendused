@@ -2,12 +2,12 @@
 
 - no-framework js
 - https://github.com/timotr/harjutused
-  - 
+
 - js xmlhttprequest
 - https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-- 
+  
 - var asemel kasutada let ja const
--
+
 ```
 const apiUrl = 'https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=59.4714921&lon=24.5734362';
 
