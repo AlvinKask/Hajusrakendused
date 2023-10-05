@@ -128,3 +128,4 @@ server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 ```
+[Varuosad.zip](https://github.com/AlvinKask/Hajusrakendused/files/12817286/Varuosad.zip)
