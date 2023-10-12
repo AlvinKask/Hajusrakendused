@@ -129,3 +129,64 @@ server.listen(port, hostname, () => {
 });
 ```
 - [Varuosad.zip](https://github.com/AlvinKask/Hajusrakendused/files/12817286/Varuosad.zip)
+
+```
+const http = require('http');
+const fs = require('fs');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const headers = [
+  'Tootekood',
+  'Kirjeldus',
+  'Ladu 1',
+  'Ladu 2',
+  'Ladu 3',
+  'Ladu 4',
+  'Ladu 5',
+  'Column 8',
+  'Hind km(ta)',
+  'Column10',
+  'Hind km(ga)',
+];
+
+let fileContents = fs.readFileSync('LE.txt', 'utf8');
+const rows = fileContents.split('\n'); // Andmestik jagatakse ridadeks
+
+function removeQuotes(str) {
+  return str.replace(/^"/, '').replace(/"$/, '');
+}
+
+const server = http.createServer((req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+
+  const urlParams = new URLSearchParams(req.url.split('?')[1]);
+  const searchQuery = urlParams.get('search') || ''; // Otsingupäringu eraldamine URL-ist
+
+  const result = [];
+
+  rows.forEach(row => {
+    const cells = row.split('\t'); // Rida jagatakse lahtriteks vahe-märgi "\t" abil
+    if (cells.length === headers.length) { // Kontrollitakse, kas lahtrite arv vastab päiste arvule
+      const rowData = {};
+      headers.forEach((header, index) => {
+        if (header === 'Kirjeldus') {
+          rowData[header] = removeQuotes(cells[index]).trim(); // "Kirjeldus" veergu töödeldakse nii, et eemaldatakse esimesed ja viimased tühikud
+        } else {
+          rowData[header] = removeQuotes(cells[index]);
+        }
+      });
+      result.push(rowData);
+    }
+  });
+
+  // Vastamine JSON-andmetega
+  res.end(JSON.stringify(result));
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server töötab aadressil http://${hostname}:${port}/`);
+});
+ // Otsimiseks kirjuta aadressiribale: http://127.0.0.1:3000/?search=siia_kirjuta_oma_otsinguparameeter
+```
